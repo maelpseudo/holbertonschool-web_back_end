@@ -1,27 +1,20 @@
 #!/usr/bin/env python3
-# 1-concurrent_coroutines.py
+"""Let's execute multiple coroutines at the same time with async"""
 import asyncio
 from typing import List
 
-# Assuming wait_random is defined in the module '0-basic_async_syntax'
-from 0-basic_async_syntax import wait_random
+wait_random = __import__('0-basic_async_syntax').wait_random
+
 
 async def wait_n(n: int, max_delay: int) -> List[float]:
-    """
-    Spawns wait_random n times with the specified max_delay.
+    """ Import wait_random from the previous python file that you’ve written
+    and write an async routine called wait_n that takes in 2 int arguments
+    (in this order): n and max_delay. You will spawn wait_random n times with
+    the specified max_delay.
 
-    Args:
-    n (int): The number of times to spawn wait_random.
-    max_delay (int): The maximum delay passed to wait_random.
-
-    Returns:
-    List[float]: A list of float delays from each wait_random call, returned in ascending order of completion.
-    """
-    tasks = [asyncio.create_task(wait_random(max_delay)) for _ in range(n)]
-    completed_delays = []
-
-    for future in asyncio.as_completed(tasks):
-        result = await future
-        completed_delays.append(result)
-
-    return completed_delays
+    wait_n should return the list of all the delays (float values). The list of
+    the delays should be in ascending order without using sort() because of
+    concurrency. """
+    results: List[float] = [asyncio.create_task(
+        wait_random(max_delay)) for _ in range(n)]
+    return [await result for result in asyncio.as_completed(results)]
