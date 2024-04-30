@@ -1,11 +1,2 @@
-// Connect to the MongoDB server on the default port
-db = connect('localhost:27017/my_db');
-
-// This command switches to the database 'my_db'. If it doesn't exist, MongoDB will create it when data is first written.
-db = db.getSiblingDB('my_db');
-
-// Print the current database name to confirm the switch or creation
-print('switched to db ' + db.getName());
-
-// Close the connection
-db.close();
+// Write a script that creates or uses the database my_db
+use my_db

@@ -1,13 +1,6 @@
-// This script assumes that it's being executed in the context of the specified database using the mongo command.
-
-// Define the query to find documents where the name is "Holberton school"
-var query = { name: "Holberton school" };
-
-// Define the update operation to add the address attribute
-var update = { $set: { address: "972 Mission street" } };
-
-// Update all matching documents in the 'school' collection
-var result = db.school.update(query, update, { multi: true });
-
-// Print the result of the update operation
-printjson(result);
+// Script that adds a new attribute to a document in the collection school.
+db.school.update(
+    {name:"Holberton school"},
+    {$set: {address:"972 Mission street"}},
+    {multi:true}
+)
