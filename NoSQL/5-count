@@ -1,0 +1,7 @@
+// This script assumes that it's being executed in the context of the specified database using the mongo command.
+
+// Count the documents in the 'school' collection
+var count = db.school.count();
+
+// Print the count
+print(count);

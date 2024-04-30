@@ -1,0 +1,12 @@
+// This script assumes that it's being executed in the context of the specified database using the mongo command.
+
+// Define the document to be inserted
+var document = {
+  name: "Holberton school"
+};
+
+// Insert the document into the 'school' collection
+var result = db.school.insert(document);
+
+// Print the result of the insert operation to verify
+printjson(result);

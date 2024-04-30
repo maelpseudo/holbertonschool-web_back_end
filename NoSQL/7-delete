@@ -1,0 +1,10 @@
+// This script assumes that it's being executed in the context of the specified database using the mongo command.
+
+// Define the query to find documents where the name is "Holberton school"
+var query = { name: "Holberton school" };
+
+// Delete all matching documents in the 'school' collection
+var result = db.school.remove(query);
+
+// Print the result of the delete operation
+printjson(result);

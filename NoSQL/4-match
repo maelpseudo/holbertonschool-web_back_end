@@ -1,0 +1,12 @@
+// This script assumes that it's being executed in the context of the specified database using the mongo command.
+
+// Define the query to find documents where the name is "Holberton school"
+var query = { name: "Holberton school" };
+
+// Execute the query to find matching documents in the 'school' collection
+var cursor = db.school.find(query);
+
+// Iterate over the cursor and print each document
+while (cursor.hasNext()) {
+    printjson(cursor.next());
+}

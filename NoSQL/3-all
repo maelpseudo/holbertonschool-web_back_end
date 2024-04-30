@@ -1,0 +1,9 @@
+// This script assumes that it's being executed in the context of the specified database using the mongo command.
+
+// Fetch all documents from the 'school' collection
+var cursor = db.school.find();
+
+// Iterate over the cursor and print each document
+while (cursor.hasNext()) {
+    printjson(cursor.next());
+}
