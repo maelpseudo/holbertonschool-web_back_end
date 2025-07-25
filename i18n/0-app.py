@@ -1,15 +1,18 @@
 #!/usr/bin/env python3
-"""python file handle the all route"""
+""" Basic Flask app """
 from flask import Flask, render_template
-
 app = Flask(__name__)
 
 
-@app.route("/")
-def home():
-    """routet return the templates of homepage"""
-    return render_template("./index.html")
+@app.route('/')
+def hello_world():
+    """ Greeting
+
+        Return:
+            Initial template html
+    """
+    return render_template('0-index.html')
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port="5000")

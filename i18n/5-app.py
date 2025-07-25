@@ -1,28 +1,8 @@
 #!/usr/bin/env python3
-"""
-Module to start a Flask web application with internationalization support.
-
-This module demonstrates setting up a basic Flask application with support for
-internationalization, including language selection based on user preference or
-browser settings.
-"""
-
+""" Basic Babel setup """
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
-
-app = Flask(__name__)
-
-
-class Config:
-    """Configuration class for setting Flask and Babel configurations."""
-
-    LANGUAGES = ['en', 'fr']
-    BABEL_DEFAULT_LOCALE = 'en'
-    BABEL_DEFAULT_TIMEZONE = 'UTC'
-
-
-app.config.from_object(Config)
-babel = Babel(app)
+from flask_babel import Babel, _
+from typing import Union
 
 
 users = {
@@ -33,58 +13,67 @@ users = {
 }
 
 
-@babel.localeselector
-def get_locale() -> str:
-    """
-    Determine the best match for the user's locale.
-
-    Returns:
-        A string representing the best match for the user's preferred language.
-    """
-    user_locale = request.args.get('locale')
-    if user_locale and user_locale in Config.LANGUAGES:
-        return user_locale
-
-    return request.accept_languages.best_match(Config.LANGUAGES)
+class Config(object):
+    """ Configuration Babel """
+    LANGUAGES = ["en", "fr"]
+    BABEL_DEFAULT_TIMEZONE = 'UTC'
+    BABEL_DEFAULT_LOCALE = 'en'
 
 
-def get_user() -> dict:
-    """
-    Retrieve a user from the request query parameters.
-
-    Attempts to find a user by the 'login_as' query parameter and returns the
-    user information if found.
-
-    Returns:
-    A dictionary containing user information or None if no valid user is found.
-    """
-    user_id = request.args.get("login_as")
-    if user_id:
-        return users.get(int(user_id))
-    return None
+app = Flask(__name__, template_folder='templates')
+app.config.from_object(Config)
+babel = Babel(app)
 
 
 @app.before_request
-def before_request() -> None:
+def before_request(login_as: int = None):
+    """ Request of each function
     """
-    Hook to run before each request to set the global user.
+    user: dict = get_user()
+    print(user)
+    g.user = user
 
-    Retrieves a user based on the request parameters and sets it globally
-    for the current request context.
+
+def get_user() -> Union[dict, None]:
+    """ Get the user of the dict
+
+        Return User
     """
-    g.user = get_user()
+    login_user = request.args.get('login_as', None)
+
+    if login_user is None:
+        return None
+
+    user: dict = {}
+    user[login_user] = users.get(int(login_user))
+
+    return user[login_user]
 
 
-@app.route('/', methods=["GET"])
-def index() -> str:
+@babel.localeselector
+def get_locale():
+    """ Locale language
+
+        Return:
+            Best match to the language
     """
-    Render the initial template with a greeting.
+    locale = request.args.get('locale', None)
 
-    Returns:
-        Rendered template for the index page.
+    if locale and locale in app.config['LANGUAGES']:
+        return locale
+
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+
+@app.route('/', methods=['GET'], strict_slashes=False)
+def hello_world():
+    """ Greeting
+
+        Return:
+            Initial template html
     """
     return render_template('5-index.html')
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port="5000")
