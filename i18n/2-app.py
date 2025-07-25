@@ -13,10 +13,9 @@ class Config(object):
 
 app = Flask(__name__)
 app.config.from_object(Config)
-babel = Babel(app)
+babel = Babel()
 
 
-@babel.localeselector
 def get_locale():
     """ Locale language
 
@@ -26,6 +25,9 @@ def get_locale():
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
 
+babel.init_app(app, locale_selector=get_locale)
+
+
 @app.route('/', strict_slashes=False)
 def hello_world():
     """ Greeting
@@ -33,7 +35,7 @@ def hello_world():
         Return:
             Initial template html
     """
-    return render_template('1-index.html')
+    return render_template('2-index.html')  # Attention au bon nom de fichier HTML ici
 
 
 if __name__ == "__main__":
