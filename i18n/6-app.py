@@ -61,7 +61,7 @@ babel.init_app(app, locale_selector=get_locale)
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def index():
-        """Render the homepage."""
+    """Render the homepage."""
     return render_template('6-index.html')
 
 
