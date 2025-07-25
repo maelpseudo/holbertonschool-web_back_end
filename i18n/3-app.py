@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Basic Babel setup """
 from flask import Flask, render_template, request
-from flask_babel import Babel, _  # _ is used to mark strings for translation
+from flask_babel import Babel, _  # '_' is a convention used to mark translatable strings
 
 class Config(object):
     """ Configuration Babel """
