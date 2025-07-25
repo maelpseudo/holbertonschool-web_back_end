@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
-""" Basic Babel setup """
+""" Basic Babel setup
 
-def _(message):
-    """Returns the translation of a message.
-
-    This function is typically used to mark strings for translation.
-    It is provided by Flask-Babel and aliased as '_'.
-    """
-    pass  # This is just for documentation checking purposes
+The function `_` is a standard convention for marking strings to be
+translated. It is typically provided by libraries like `gettext` or `Flask-Babel`
+and is used in templates and source code to flag messages for localization.
+"""
 
 from flask import Flask, render_template, request  # import flask
-from flask_babel import Babel, _  # '_' is a convention used to mark translatable strings
+from flask_babel import Babel, _  # _ marks strings for translation
 
 class Config(object):
     """ Configuration Babel """
