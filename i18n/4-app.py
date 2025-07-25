@@ -13,33 +13,23 @@ class Config(object):
 
 app = Flask(__name__, template_folder='templates')
 app.config.from_object(Config)
-babel = Babel(app)
+babel = Babel()
 
-
-@babel.localeselector
 def get_locale():
-    """ Locale language
-
-        Return:
-            Best match to the language
-    """
-    locale = request.args.get('locale', None)
-
-    if locale and locale in app.config['LANGUAGES']:
+    """ Determine the best match with our supported languages """
+    locale = request.args.get('locale')
+    if locale in app.config['LANGUAGES']:
         return locale
-
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
+# ✅ initialize Babel with the custom locale selector
+babel.init_app(app, locale_selector=get_locale)
 
 @app.route('/', methods=['GET'], strict_slashes=False)
 def hello_world():
-    """ Greeting
-
-        Return:
-            Initial template html
-    """
+    """ Greeting """
     return render_template('4-index.html')
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port="5000")
+    app.run(host="0.0.0.0", port=5000)
