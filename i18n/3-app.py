@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """ Basic Babel setup """
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request # import flask
 from flask_babel import Babel, _  # '_' is a convention used to mark translatable strings
 
 class Config(object):
@@ -18,7 +18,7 @@ def get_locale():
     """ Select best match for supported languages """
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
-# 🔧 Ici, on passe get_locale dans init_app
+# Ici, on passe get_locale dans init_app
 babel.init_app(app, locale_selector=get_locale)
 
 
