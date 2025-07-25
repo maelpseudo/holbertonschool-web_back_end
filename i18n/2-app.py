@@ -37,7 +37,7 @@ def hello_world():
         Return:
             Initial template html
     """
-    return render_template('2-index.html')  # Attention au bon nom de fichier HTML ici
+    return render_template('2-index.html')
 
 
 if __name__ == "__main__":
