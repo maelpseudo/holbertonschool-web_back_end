@@ -1,35 +1,33 @@
 #!/usr/bin/env python3
-""" Basic Babel setup
-
-The function `_` is a standard convention for marking strings to be
-translated. It is typically provided by libraries like `gettext` or `Flask-Babel`
-and is used in templates and source code to flag messages for localization.
-"""
-
-from flask import Flask, render_template, request  # import flask
-from flask_babel import Babel, _  # _ marks strings for translation
-
-class Config(object):
-    """ Configuration Babel """
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_TIMEZONE = 'UTC'
-    BABEL_DEFAULT_LOCALE = 'en'
+"""task 3"""
+from flask import Flask, render_template, request
+from flask_babel import Babel
 
 app = Flask(__name__)
-app.config.from_object(Config)
-babel = Babel()
+babel = Babel(app)
 
+
+class Config(object):
+    """Config class to setup Babel for English and French"""
+    LANGUAGES = ["en", "fr"]
+    Babel.default_locale = "en"
+    Babel.default_timezone = "UTC"
+
+
+app.config.from_object(Config)
+
+
+@app.route("/", methods=["GET"], strict_slashes=False)
+def index() -> str:
+    """Template for 3-index"""
+    return render_template('./3-index.html')
+
+
+@babel.localeselector
 def get_locale():
-    """ Select best match for supported languages """
+    """Get user locale"""
     return request.accept_languages.best_match(app.config['LANGUAGES'])
 
-# Ici, on passe get_locale dans init_app
-babel.init_app(app, locale_selector=get_locale)
-
-@app.route('/', strict_slashes=False)
-def index():
-    """ Render homepage """
-    return render_template('3-index.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port="5000")
