@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """ Basic Babel setup with user locale priority """
 from flask import Flask, render_template, request, g
-from flask_babel import Babel
+from flask_babel import Babel, _
 from typing import Union
 
 
